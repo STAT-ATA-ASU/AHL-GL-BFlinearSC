@@ -20,10 +20,10 @@ library(caret)
 
 ```{r, results = "hide", echo = FALSE, message = FALSE}
 PackagesUsed <- c("tidyverse", "caret", "rpart", "rmarkdown", "bookdown", 
-                  "plotly", "ggplot2", "knitr", "plotly", "glmnet", "dplyr",
+                  "plotly", "ggplot2", "knitr", "glmnet", "dplyr",
                   "data.table", "MASS", "caretEnsemble", "ranger",
                   "randomForest", "leaps", "corrplot","GGally", "mfp", 
-                  "partykit", "gbm", "RANN", "e1071", "rpart.plot", "corrplot")
+                  "partykit", "gbm", "RANN", "e1071", "rpart.plot")
 knitr::write_bib(PackagesUsed, file = "./packages.bib")
 ```
 
