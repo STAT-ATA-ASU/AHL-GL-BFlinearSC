@@ -4,7 +4,7 @@ output:
   bookdown::html_document2: 
     highlight: espresso
     theme: spacelab
-author: "Your Name"
+author: "Your Name Here"
 date: 'Last compiled: `r format(Sys.time(), "%B %d, %Y")`'
 bibliography: 
   - packages.bib
@@ -14,16 +14,16 @@ css: MyLab.css
 ---
 
 ```{r label = "setup", include = FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center", comment = NA, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", comment = NA, message = FALSE,  warning = FALSE)
 library(caret)
 ```
 
 ```{r, results = "hide", echo = FALSE, message = FALSE}
 PackagesUsed <- c("tidyverse", "caret", "rpart", "rmarkdown", "bookdown", 
-                  "plotly", "ggplot2", "knitr", "glmnet", "dplyr",
+                  "plotly", "ggplot2", "knitr", "plotly", "glmnet", "dplyr",
                   "data.table", "MASS", "caretEnsemble", "ranger",
                   "randomForest", "leaps", "corrplot","GGally", "mfp", 
-                  "partykit", "gbm", "RANN", "e1071", "rpart.plot")
+                  "partykit", "gbm", "RANN", "e1071", "rpart.plot", "corrplot")
 knitr::write_bib(PackagesUsed, file = "./packages.bib")
 ```
 
@@ -43,8 +43,9 @@ _____________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
+
+
+
 ```
 
 
@@ -54,8 +55,9 @@ ___________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
+
+
+
 ```
 
 _________
@@ -63,15 +65,20 @@ _________
 
 Now that you have seen the structure of the data and have studied the research question, answer the following questions.
 
+____________
+
 2. How many observations and variables are in `bodyfatClean`?
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
+
 
 
 </div>
@@ -85,6 +92,7 @@ ___________
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
+
 </div>
 
 ____________
@@ -95,6 +103,7 @@ ____________
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
 
 </div>
 
@@ -107,6 +116,7 @@ ____________
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
+
 </div>
 
 _________
@@ -117,20 +127,19 @@ When building a predictive model with a sufficiently large data set, it is commo
 
 Use the `creatDataPartition()` function from the `caret` package to partition the data in to `training` and `testing`. 
 
-For illustration purposes, the `Boston` data set from the __MASS__ package written by @R-MASS is used to illustrate various steps in predictive model building. The `Boston` help file indicates the data set consists of 506 observations on 14 different variables for houses in Boston collected in 1978. To open the `Boston` help file, type `?Boston` at the R
-prompt once the __MASS__ package has been loaded. The goal here is to predict the median house price (`medv`) in Boston. The Boston data set is divided into a training set containing roughly 80% of the observations and a testing set containing roughly 20% of the observations. Before calling the `createDataPartition()` function, it is important to set a seed to ensure the data partition is reproducible.
+For illustration purposes, the `Boston` data set from the **MASS** package written by @R-MASS is used to illustrate various steps in predictive model building. The `Boston` help file indicates the data set consists of 506 observations on 14 different variables for houses in Boston collected in 1978. To open the `Boston` help file, type `?Boston` at the R prompt once the **MASS** package has been loaded. The goal is to predict the median house price (`medv`) in Boston. The `Boston` data set is divided into a training set containing roughly 80% of the observations and a testing set containing roughly 20% of the observations. Before calling the `createDataPartition()` function, it is important to set a seed to ensure the data partition is reproducible.
 
 The arguments `y`, `p`, `list` and `times` can be used with the `createDataPartition()` function. These arguments represent a vector of outcomes (`Boston$medv`), the percentage of data that goes to training (`0.80`), should the results be in a list (`FALSE`) and the number of partitions to create (`1`) respectively. The result from using `createDataPartition()` is a vector of indices one can use to create the training set. 
 
 ```{r}
 library(caret) # load the caret package
-library(MASS) # load MASS package
+library(MASS)  # load MASS package
 set.seed(3178) # set seed for reproducibility
 
 trainIndexB <- createDataPartition(y = Boston$medv,
-                                  p = 0.80,
-                                  list = FALSE,
-                                  times = 1)
+                                   p = 0.80,
+                                   list = FALSE,
+                                   times = 1)
 
 trainingB <- Boston[trainIndexB, ]
 testingB <- Boston[-trainIndexB, ]
@@ -147,9 +156,10 @@ _______________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
-#
+
+
+
+
 ```
 
 
@@ -160,14 +170,17 @@ __________________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
+
+
 
 </div>
 
@@ -181,7 +194,7 @@ The following `R` Code applies a `center`, `scale`, and `BoxCox` transform to al
 
 ```{r}
 pp_trainingB <- preProcess(trainingB[ , -14],
-                          method = c("center", "scale", "BoxCox"))
+                           method = c("center", "scale", "BoxCox"))
 pp_trainingB
 trainingTransB <- predict(pp_trainingB, trainingB)
 testingTransB <- predict(pp_trainingB, testingB)
@@ -189,19 +202,26 @@ testingTransB <- predict(pp_trainingB, testingB)
 
 _________________________
 
-Your turn to work with the `bodyfatClean` data frame now.
+Your turn now to work with the `bodyfatClean` data frame.
+
+
+_________________________
 
 8. Provide the column number of `bodyfatClean` where `brozek_C` is stored.
 
 ```{r}
 # Type your code and comment inside the code chunk
-#
+
+
+
 ```
 
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
+
 
 </div>
 
@@ -212,9 +232,10 @@ ___________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
-#
+
+
+
+
 ```
 
 _______________
@@ -224,8 +245,10 @@ _______________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
+
+
+
+
 ```
 
 ____________
@@ -252,9 +275,9 @@ ___________
 ```{r}
 # Type your code and comments inside the code chunk
 # Define the type of resampling
-#
-#
-#
+
+
+
 ```
 
 ____________
@@ -287,14 +310,12 @@ By assuming the functional form of $f$ is linear, the problem becomes one of fin
 (\#eq:rss)
 \end{equation}
 
-and  $\hat{y}_i = \hat\beta_0 + \hat\beta_1X_1 + \hat\beta_2X_2 + \cdots + \hat\beta_pX_p.$ 
-
-
+and  $\hat{y}_i = \hat\beta_0 + \hat\beta_1X_1 + \hat\beta_2X_2 + \cdots + \hat\beta_pX_p.$  
 
 To fit a model with a particular algorithm, the name of the algorithm is given to the `method` argument of the `train()` function. The `train()` function accepts a formula interface provided the data is also specified in the function. Following R Code fits a linear model by regressing `medv` on all of the predictors in the training data set using the dot indicator which selects all predictors `(medv ∼ .)`. The preferred way to train a model is by passing the response vector to the `y` argument and a data frame of the predictors or a matrix of the predictors to the `x` argument of `train()`. Both approaches are shown in the below `R` code.
 
 ```{r}
-# Here we used  method = "lm" to fit a Least Squares Regression model
+# Train linear model with  `method = "lm"` to fit a Least Squares Regression model
 
 # Approach 1
 set.seed(31)
@@ -312,6 +333,24 @@ mod_lm2 <- train(y = trainingTransB$medv,    # response
 
 mod_lm2$results       # CV results
 mod_lm2$results$RMSE  # RMSE
+# Approach 3
+# Should give the same results....but no???
+set.seed(31)
+mod_lm3 <- train(y = trainingB$medv,
+                 x = trainingB[, -14],
+                 # data = trainingB,
+                 trControl = myControlB,
+                 preProcess = c("center", "scale", "BoxCox"),
+                 method = "lm")
+mod_lm3$results
+#
+set.seed(31)
+mod_lm4 <- train(medv ~. ,
+                 data = trainingB,
+                 trControl = myControlB,
+                 preProcess = c("center", "scale", "BoxCox"),
+                 method = "lm")
+mod_lm4$results
 ```
 
 The average root mean squared error (RMSE) of the 50 resamples is `r round(mod_lm2$results$RMSE, 4)`.
@@ -328,27 +367,36 @@ ____________________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
-#
-#
+
+
+
+
+
+
+
+
+
 ```
 
 ________________________
 
-13.  Use the `corrplot()` function from the `corrplot` package written by @R-corrplot to identify predictors that may be linearly related in `trainingTrans`. Are any of the variables colinear? If so, remove the predictor that is least correlated to the response variable. Note that when `method = "number"` is used with `corrplot()`, color coded numerical correlations are displayed.
+13.  Use the `corrplot()` function from the **corrplot** package written by @R-corrplot to identify predictors that may be linearly related in `trainingTrans`. Are any of the variables colinear? If so, remove the predictor that is least correlated to the response variable. Note that when `method = "number"` is used with `corrplot()`, color coded numerical correlations are displayed.
 
 ```{r}
 # Type your code and comments inside the code chunk
 # Identifying linearly related predictors
-library(corrplot)
-#
-#
-#
+
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
+
+
 
 </div>
 _______________________
@@ -371,36 +419,42 @@ __________________
 ```{r, message = FALSE, warning = FALSE}
 # Type your code and comments inside the code chunk
 # Forward Selection
-#
+
+
+
 ```
 
 
 ```{r}
-# Type your code and comments inside the code chunk
 # A.
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
+
+
 </div>
 
 ```{r}
-# Type your code and comments inside the code chunk
-      # B.
+# B.
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
+
 </div>
 
 ```{r}
-# Type your code and comments inside the code chunk
-      # C. 
-#
+# C. 
+
+
+
 ```
 
 <div id="answer">
@@ -416,12 +470,15 @@ __________________
 ```{r}
 # Type your code and comments inside the code chunk
 # Computing RMSE on the testing set
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
 
 </div>
 
@@ -443,15 +500,35 @@ ___________________
 ```{r}
 # Type your code and comments inside the code chunk
 # Fit model with backward elimination
-#
-#
-#
+
+
+
+
+
+
 ```
 
 
 ```{r}
-# Type your code and comments inside the code chunk
-    # A.
+# A.
+
+
+```
+
+<div id="answer">
+Type your complete sentence answer here using inline R code and delete this comment.
+        
+
+
+
+</div>
+
+
+
+```{r}
+# B.
+
+
 ```
 
 <div id="answer">
@@ -460,28 +537,18 @@ Type your complete sentence answer here using inline R code and delete this comm
 
 </div>
 
-
-
 ```{r}
-# Type your code and comments inside the code chunk
-   # B.
+# C.
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
-</div>
 
-```{r}
-# Type your code and comments inside the code chunk
-   # C.
-#
-```
-
-<div id="answer">
-Type your complete sentence answer here using inline R code and delete this comment.
-        
 
 </div>
 
@@ -492,12 +559,16 @@ _______________________
 ```{r}
 # Type your code and comments inside the code chunk
 # Computing RMSE on the testing set
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
+
 
 </div>
 
@@ -505,7 +576,7 @@ _______________________
 
 ## Constrained Regression
 
-Constrained regression shrinks the coefficient estimates towards zero while reducing their variance by adding a small amount of bias.  Two popular forms of constrained regression are ridge regression developed by @hoerl_ridge_1970 and the least absolute shrinkage and selection operator (lasso) developed by @tibshirani_regression_1996.
+Constrained regression shrinks the coefficient estimates towards zero while reducing their variance by adding a small amount of bias.  Two popular forms of constrained regression are ridge regression developed by @hoerl_ridge_1970 and the least absolute shrinkage and selection operator (LASSO) developed by @tibshirani_regression_1996.
 
 
 ### Ridge Regression
@@ -551,7 +622,6 @@ The following `R` code fits a ridge regression model for `medv` using the `Bosto
 
 
 ```{r}
-# Type your code and comments inside the code chunk
 # Fit constrained model (elastic net)---Ridge model
 set.seed(42)
 mod_RidgeB <- train(y =trainingTransB$medv,  # response
@@ -567,71 +637,87 @@ mod_RidgeB$bestTune$alpha
 ```
 
 
-`mod_Ridge$results` displays the `RMSE` for all the models for each value of the tuning parameter `lambda` (100 models in this case). `mod_RidgeB$bestTune` gives the `lambda` value of the model with the minimum `RMSE`.  In this case, the best `lambda` value was 0.01 which resulted the minimum `RMSE` of `r min(mod_RidgeB$results$RMSE)`.	
+`mod_Ridge$results` displays the `RMSE` for all the models for each value of the tuning parameter `lambda` (100 models in this case). `mod_RidgeB$bestTune` gives the `lambda` value of the model with the minimum `RMSE`.  In this case, the best `lambda` value was `r mod_RidgeB$bestTune$lambda` which returned the minimum `RMSE` of `r min(mod_RidgeB$results$RMSE)`.	
 
 _______________________
 
 
-19.  Use the `train()` function with `method = "glmnet"` to fit a constrained linear regression model named `mod_Ridge`. Assign the object `myControl` to the `trControl` argument of the `train()` function to fit a ridge  model where the goal is to predict body fat. Use `brozek_C` as the response and store the results of `train()` in `mod_Ridge`. Use `set.seed(42)` for reproducibility.  Do not include any predictors that are perfectly correlated.  
+19.  Use the `train()` function with `method = "glmnet"` to fit a constrained linear regression model named `mod_Ridge`. Assign the object `myControl` to the `trControl` argument of the `train()` function to fit a ridge  model where the goal is to predict body fat. Use `brozek_C` as the response and store the results of `train()` in `mod_Ridge`. Use `set.seed(42)` for reproducibility.  Do not include any predictors that are perfectly correlated.  Produce a plot of RMSE versus the regularization parameter ($\lambda$).  
 
 ```{r}
 # Type your code and comments inside the code chunk
 # Ridge model
-#
-#
+
+
+
+
+
 ```
-
-
 
 _________________________
 
 
-19. Give the `lambda` value of the model with the minimum `RMSE`.
+19. Report the `lambda` value of the model with the minimum `RMSE`.
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
 
 </div>
 
 _______________
 
-20. Use the `train()` function with `method = "glmnet"` and assign the object `myControl` to the `trControl` argument of the `train()` function to fit a lasso model where the goal is to predict body fat. Use `brozek_C` as the response and store the results of `train()` in `mod_lasso`. In the `expand.grid()` function set the argument `alpha = 1` in order to obtain a lasso model. Use `set.seed(42)` for reproducibility. Do not include any predictors that are perfectly correlated. 
+20. Use the `train()` function with `method = "glmnet"` and assign the object `myControl` to the `trControl` argument of the `train()` function to fit a lasso model where the goal is to predict body fat. Use `brozek_C` as the response and store the results of `train()` in `mod_lasso`. In the `expand.grid()` function set the argument `alpha = 1` in order to obtain a lasso model. Use `set.seed(42)` for reproducibility. Do not include any predictors that are perfectly correlated. Produce a plot of RMSE versus the regularization parameter ($\lambda$). 
 
 ```{r}
 # Type your code and comments inside the code chunk
-# Lasso model
-#
+# Lasso model: alpha = 1
+
+
+
+
+
 ```
 
 
 
-21. Give the `lambda` value of the model with the minimum `RMSE`. 
+21. Report the `lambda` value of the model with the minimum `RMSE`. 
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
 
+
+
 </div>
 
 ____________________
 
-22.  Use the `train()` function with `method = "glmnet"` and assign the object `myControl` to the `trControl` argument of the `train()` fucntion where the goal is to predict body fat using an elastic net model. Use `brozek_C` as the response and store the results of `train()` in `mod_EN`.  Use `set.seed(42)` for reproducibility. Do not include any predictors that are perfectly correlated. Use a custom tuning grid with arguments to `expand.grid()` of `alpha = seq(0.1, 0.5, length = 11)` and  `lambda = seq(0.01, 100, length = 20)`.
+22.  Use the `train()` function with `method = "glmnet"` and assign the object `myControl` to the `trControl` argument of the `train()` fucntion where the goal is to predict body fat using an elastic net model. Use `brozek_C` as the response and store the results of `train()` in `mod_EN`.  Use `set.seed(42)` for reproducibility. Do not include any predictors that are perfectly correlated. Use a custom tuning grid with arguments to `expand.grid()` of `alpha = seq(0.1, 0.5, length = 11)` and  `lambda = seq(0.01, 100, length = 20)`.  Produce a plot of RMSE versus the regularization parameter ($\lambda$). 
 
 ```{r}
 # Type your code and comments inside the code chunk
 # Elastic net model
-#
+
+
+
+
+
+
 ```
 
 _________________
@@ -640,12 +726,16 @@ _________________
 
 ```{r}
 # Type your code and comments inside the code chunk
-#
+
+
+
 ```
 
 <div id="answer">
 Type your complete sentence answer here using inline R code and delete this comment.
         
+
+
 
 </div>
 
